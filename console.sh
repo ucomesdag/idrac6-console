@@ -52,7 +52,7 @@ die () {
   exit "${CODE}"
 }
 
-SCRIPT_DIR="$( cd "$(dirname "$0")" &> /dev/null || die "can't cd to $(dirname "$0")"; pwd -P )"
+SCRIPT_DIR="$( cd "$(dirname "$0")" &> /dev/null || die "Can't cd to $(dirname "$0")"; pwd -P )"
 
 while getopts "h:u:p:ki" OPTIONS; do
   case ${OPTIONS} in
@@ -68,7 +68,7 @@ done
 if [ -z "${JAVA_HOME}" ]; then
   JAVA_PATH="$(which java)"
   if [ -h "${JAVA_PATH}" ]; then
-    JAVA_PATH="$(readlink -e "${JAVA_PATH}" || die "cannot resolve java symlink")"
+    JAVA_PATH="$(readlink -e "${JAVA_PATH}" || die "Cannot resolve java symlink")"
   fi
   if [ -x "${JAVA_PATH}" ]; then
     JAVA_BIN_PATH="$(dirname "${JAVA_PATH}")"
@@ -115,16 +115,16 @@ if [ "$INIT" == "true" ] || [ ! -d "${SCRIPT_DIR}/bin" ] || [ ! -d "${SCRIPT_DIR
   esac
 
   SOFTWARE_URL="${PROTO:-https}://${IDRAC_HOST}/software/"
-  export WINDOWS_X86_LIBS="avctKVMIOWin32.jar avctVMWin32.jar"
-  export WINDOWS_X86_64_LIBS="avctKVMIOWin64.jar avctVMWin64.jar"
-  export WINDOWS_AMD64_LIBS="avctKVMIOWin64.jar avctVMWin64.jar"
-  export LINUX_X86_LIBS="avctKVMIOLinux32.jar avctVMLinux32.jar"
-  export LINUX_I386_LIBS="avctKVMIOLinux32.jar avctVMLinux32.jar"
-  export LINUX_I586_LIBS="avctKVMIOLinux32.jar avctVMLinux32.jar"
-  export LINUX_I686_LIBs="avctKVMIOLinux32.jar avctVMLinux32.jar"
-  export LINUX_AMD64_LIBS="avctKVMIOLinux64.jar avctVMLinux64.jar"
-  export LINUX_X86_64_LIBS="avctKVMIOLinux64.jar avctVMLinux64.jar"
-  export MACOS_X86_64_LIBS="avctKVMIOMac64.jar avctVMMac64.jar"
+  WINDOWS_X86_LIBS="avctKVMIOWin32.jar avctVMWin32.jar"
+  WINDOWS_X86_64_LIBS="avctKVMIOWin64.jar avctVMWin64.jar"
+  WINDOWS_AMD64_LIBS="avctKVMIOWin64.jar avctVMWin64.jar"
+  LINUX_X86_LIBS="avctKVMIOLinux32.jar avctVMLinux32.jar"
+  LINUX_I386_LIBS="avctKVMIOLinux32.jar avctVMLinux32.jar"
+  LINUX_I586_LIBS="avctKVMIOLinux32.jar avctVMLinux32.jar"
+  LINUX_I686_LIBs="avctKVMIOLinux32.jar avctVMLinux32.jar"
+  LINUX_AMD64_LIBS="avctKVMIOLinux64.jar avctVMLinux64.jar"
+  LINUX_X86_64_LIBS="avctKVMIOLinux64.jar avctVMLinux64.jar"
+  MACOS_X86_64_LIBS="avctKVMIOMac64.jar avctVMMac64.jar"
   JAR="avctKVM.jar"
 
   if curl -sS "${SOFTWARE_URL}" 2>&1 | grep -q "curl: (60)"; then
@@ -136,7 +136,7 @@ if [ "$INIT" == "true" ] || [ ! -d "${SCRIPT_DIR}/bin" ] || [ ! -d "${SCRIPT_DIR
   mkdir -p "${SCRIPT_DIR}"/{bin,lib,conf}
   for FILE in ${!FILES}; do
     curl -s "${SOFTWARE_URL}${FILE}" -o "${SCRIPT_DIR}/lib/${FILE}"
-    cd "${SCRIPT_DIR:?}/lib" || die "can't cd to ${SCRIPT_DIR:?}/lib"; jar -xvf "${FILE}" >/dev/null; cd - >/dev/null || die "can't cd to -"
+    cd "${SCRIPT_DIR:?}/lib" || die "Can't cd to ${SCRIPT_DIR:?}/lib"; jar -xvf "${FILE}" >/dev/null; cd - >/dev/null || die "Can't cd to -"
     rm -r "${SCRIPT_DIR:?}/lib/${FILE}" "${SCRIPT_DIR}/lib/META-INF"
   done
 
@@ -148,11 +148,9 @@ fi
 
 echo "Connecting to ${IDRAC_HOST} as ${IDRAC_USER:-root}."
 if [ -x "$(which screen)" ]; then
-  SCREEN_STUFF="screen -d -m -S idrac6console "
-else
-  SCREEN_STUFF=""
+  SCREEN_CMD="screen -d -m -S idrac6console "
 fi
-${SCREEN_STUFF} "${JAVA_HOME}/bin/java" -cp "${SCRIPT_DIR}/bin/avctKVM.jar" \
+${SCREEN_CMD:-} "${JAVA_HOME}/bin/java" -cp "${SCRIPT_DIR}/bin/avctKVM.jar" \
   -Djava.library.path="${SCRIPT_DIR}/lib/" \
   -Djava.security.properties="${SCRIPT_DIR}/conf/java.security" \
   com.avocent.idrac.kvm.Main \
