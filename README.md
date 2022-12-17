@@ -1,15 +1,30 @@
 # idrac6-console
-Start the iDAC6 virtual console on the DELL PowerEdge R610 without the need of Java Web Start or accessing it from the web interface.
+Start the iDRAC6 virtual console on the DELL PowerEdge without the
+need of Java Web Start or accessing it from the web interface.
+This script assumes basic system tools are available.
 
 ## Requirements
-Java installed
+- basename
+- bash
+- dirname
+- java 7
+- readlink
+- uname
+- xargs
 
 ## Usage
 ```
 Usage:
-    console.sh [OPTIONS]
+    ./console.sh [OPTIONS]
 
-Open a virtual console to the DELL PowerEdge R610.
+    If Java 7 is not the default java on your system, use this command instead:
+
+    JAVA_HOME="/path/to/java7" ./console.sh [OPTIONS]
+
+    The correct JAVA_HOME directory is where bin/java lives.
+
+Open a virtual console to the DELL server with iDRAC version 6,
+such as PowerEdge R610 or R710.
 
 Options:
     -?                              print this help message
