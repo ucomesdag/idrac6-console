@@ -71,6 +71,7 @@ fi
 
 if [ "$INIT" == "true" ] || [ ! -d ${SCRIPT_DIR}/bin ] || [ ! -d ${SCRIPT_DIR}/lib ] || [ ! -d ${SCRIPT_DIR}/conf ]; then
   ARCH=$(uname -m)
+  [ "$ARCH" == "arm64" ] && ARCH="x86_64"
   case "$OSTYPE" in
     darwin*)  FILES=MACOS_${ARCH^^}_LIBS ;;
     linux*)   FILES=LINUX_${ARCH^^}_LIBS ;;
