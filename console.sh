@@ -24,6 +24,12 @@ Options:
 
 Requirements: Java installed
 
+Default behavior: If no password or password file is given, then it will try to
+      load a file named 'passwd' from the current directory ($PWD), your home
+      ($HOME) and else from this scripts directory.
+
+      If no password is found it will default to the default root:calvin login.
+
 The following variables can also be set as environment variables:
   IDRAC_HOST, IDRAC_USER, IDRAC_PASSWD
 EOF
