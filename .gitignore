@@ -1,3 +1,5 @@
 *
 !README.md
 !console.sh
+!.pre-commit-config.yaml
+!.github/
