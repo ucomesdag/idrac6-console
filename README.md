@@ -5,7 +5,7 @@ This script assumes basic system tools are available.
 
 ## Requirements
 - basename
-- bash
+- bash >= 4.0
 - dirname
 - java 7
 - readlink
